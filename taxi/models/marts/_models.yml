@@ -1,0 +1,37 @@
+version: 2
+
+models:
+  - name: fct_trips
+    description: "One row per taxi trip. Grain: a single trip."
+    columns:
+      - name: trip_id
+        description: "Surrogate key, unique per trip."
+        tests:
+          - unique
+          - not_null
+      - name: pickup_zone_id
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_zone')
+              field: zone_id
+
+  - name: dim_zone
+    columns:
+      - name: zone_id
+        tests: [unique, not_null]
+
+  - name: dim_payment_type
+    columns:
+      - name: payment_type_id
+        tests: [unique, not_null]
+
+  - name: dim_rate_code
+    columns:
+      - name: rate_code_id
+        tests: [unique, not_null]
+
+  - name: dim_vendor
+    columns:
+      - name: vendor_id
+        tests: [unique, not_null]
